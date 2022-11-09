@@ -7,16 +7,16 @@ resources:
   - name: go_repo
     type: GitRepo
     configuration:
-      path: {{ .Values.repoPath }}
+      path: {{ .values.repoPath }}
       branches:
         include: main
-      gitProvider: {{ .Values.gitProvider }}
+      gitProvider: {{ .values.gitProvider }}
 
   # Build info for the published Go app
   - name: go_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.artifactory }}
+      sourceArtifactory: {{ .values.artifactory }}
 
 
 pipelines:
@@ -32,7 +32,7 @@ pipelines:
           inputResources:
             - name: go_repo
           integrations:
-            - name: {{ .Values.artifactory }}
+            - name: {{ .values.artifactory }}
 
       # Publish the Go sample app binary to Artifactory. Docs at https://www.jfrog.com/confluence/display/JFROG/GoPublishBinary
       - name: publish_go_binary
@@ -42,7 +42,7 @@ pipelines:
             - name: build_go
           targetRepository: sam-go-local
           integrations:
-            - name: {{ .Values.artifactory }}
+            - name: {{ .values.artifactory }}
 
       # Publish the Go sample app build info. Docs at https://www.jfrog.com/confluence/display/JFROG/PublishBuildInfo
       - name: publish_build
@@ -61,4 +61,4 @@ pipelines:
           inputResources:
             - name: go_repo
           integrations:
-            - name: {{ .Values.artifactory }}
+            - name: {{ .values.artifactory }}
